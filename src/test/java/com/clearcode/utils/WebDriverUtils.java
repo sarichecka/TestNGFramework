@@ -176,13 +176,11 @@ public class WebDriverUtils {
 			for(String win:winids) {
 				if(driver.switchTo().window(win).getTitle().equals(title))
 				{
-					ATUReports.add("Switch to Window By Title",title, LogAs.PASSED, new CaptureScreen(
-		                    ScreenshotOf.BROWSER_PAGE));
+					
 					return;
 				}
 			}
-					ATUReports.add("No Such Window Title Found",title, LogAs.FAILED, new CaptureScreen(
-		                    ScreenshotOf.BROWSER_PAGE));
+					
 		}
 		
 		public void switchWindowByTitleContains(String title) {
@@ -197,6 +195,23 @@ public class WebDriverUtils {
 			}
 					ATUReports.add("No Such Window Title Content Found",title, LogAs.FAILED, new CaptureScreen(
 		                    ScreenshotOf.BROWSER_PAGE));
+		}
+		public void paymentDisplay() {
+			if(driver.findElement(By.xpath("//strong[@class='calc-output']")).isDisplayed()) {
+				System.out.println("pass");
+			}
+			else {
+				System.out.println("fail");
+			}
+		}
+		
+		public void paymentNotDisplay() {
+			if(!driver.findElement(By.xpath("//strong[@class='calc-output']")).isDisplayed()) {
+				System.out.println("pass");
+			}
+			else {
+				System.out.println("fail");
+			}
 		}
 		
 		private WebElement find(By loc) {
@@ -243,9 +258,18 @@ public class WebDriverUtils {
 		public void switchFrame(By loc) {
 			driver.switchTo().frame(driver.findElement(loc));
 		}
+		public void scrollToMiddle() throws InterruptedException {
+			JavascriptExecutor js = ((JavascriptExecutor) driver);
+			js.executeScript("window.scrollTo(0, 300)");
+			Thread.sleep(5000);
+		}
 		
 		public void switchOut() {
 			driver.switchTo().defaultContent();
+		}
+		public void changeWindow(int n) {
+			Set<String> winids=driver.getWindowHandles();
+			driver.switchTo().window((String)winids.toArray()[n]);
 		}
 		
 		public void exit() {
